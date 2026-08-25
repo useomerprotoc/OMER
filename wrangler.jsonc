@@ -1,0 +1,25 @@
+{
+  // Static assets only. There is no `main`, so no Worker script runs and none
+  // of the Workers CPU limits apply: Cloudflare serves what `vite build` puts
+  // in dist/ and the reader's browser does the rest. Same shape as
+  // rouge-stocks, and the same reason: an SSR adapter would put a Worker in
+  // front of every request and land us back in a compute quota.
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "omer",
+  "compatibility_date": "2026-08-24",
+  // Both hostnames serve the worker directly. The apex is canonical, so www is
+  // not a redirect but the same site under a second name.
+  // These need the zone to exist in Cloudflare first: a deploy against a domain
+  // the account does not hold as a zone is rejected, it is not created for you.
+  "routes": [
+    { "pattern": "omerprotocol.xyz", "custom_domain": true },
+    { "pattern": "www.omerprotocol.xyz", "custom_domain": true }
+  ],
+  "assets": {
+    "directory": "./dist",
+    // react-router owns every path below /, so an unmatched request has to be
+    // answered with index.html rather than a 404. This is the SPA equivalent
+    // of the _redirects rule the Netlify build uses.
+    "not_found_handling": "single-page-application"
+  }
+}

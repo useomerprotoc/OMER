@@ -1,0 +1,217 @@
+@import "tailwindcss";
+
+@theme {
+  /* sint.gg structure, our own signal: warm black field, ember orange, white
+     type. The field is never neutral grey; it always carries a little heat. */
+  --color-bg: #0a0806;
+  --color-bg-raise: #120e0a;
+  --color-card: #17120e;
+  --color-muted: #221a14;
+  --color-fg: #fafafa;
+  --color-fg-dim: #9a928c;
+  --color-accent: #ff7a18;
+  --color-accent-soft: #ffb35c;
+  --color-accent-deep: #8a3a06;
+  --color-ember: #d2601a;
+  --color-success: #38b26b;
+  --color-warning: #ffb35c;
+  --color-danger: #e5484d;
+  --color-line: rgba(255, 255, 255, 0.08);
+
+  --font-display: "Hanken Grotesk Variable", "Hanken Grotesk", system-ui, sans-serif;
+  --font-sans: "Inter Variable", Inter, system-ui, sans-serif;
+  --font-mono: "Space Mono", ui-monospace, monospace;
+
+  --radius-none: 0px;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-line);
+  }
+
+  html {
+    background: var(--color-bg);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    background: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: #fff;
+  }
+
+  /* Sharp corners everywhere. Nothing in this system is rounded. */
+  input,
+  button,
+  select,
+  textarea {
+    border-radius: 0;
+    font-family: inherit;
+  }
+
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-bg);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #262626;
+    border: 3px solid var(--color-bg);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-accent-deep);
+  }
+}
+
+@layer components {
+  /* The one label style the whole interface leans on. */
+  .system-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    line-height: 1.5;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .display {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    line-height: 1.05;
+  }
+
+  .num {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid rgba(250, 250, 250, 0.2);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-fg);
+    transition: all 300ms;
+    cursor: pointer;
+  }
+  .btn:hover:not(:disabled) {
+    background: var(--color-fg);
+    color: var(--color-bg);
+  }
+  .btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+
+  .btn-ghost {
+    border-color: rgba(250, 250, 250, 0.1);
+    color: rgba(250, 250, 250, 0.6);
+  }
+  .btn-ghost:hover:not(:disabled) {
+    border-color: rgba(250, 250, 250, 0.3);
+    background: transparent;
+    color: var(--color-fg);
+  }
+
+  .btn-accent {
+    border-color: var(--color-accent);
+    background: var(--color-accent);
+    color: #fff;
+  }
+  .btn-accent:hover:not(:disabled) {
+    background: var(--color-accent-soft);
+    border-color: var(--color-accent-soft);
+    color: var(--color-bg);
+  }
+
+  .panel {
+    border: 1px solid var(--color-line);
+    background: rgba(23, 18, 14, 0.55);
+    backdrop-filter: blur(2px);
+  }
+
+  /* Horizontal hairline that fades in from the accent, straight off sint.gg. */
+  .hairline {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-accent-soft), transparent);
+  }
+}
+
+@keyframes scan {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(var(--scan-distance, 100vh));
+    opacity: 0;
+  }
+}
+
+@keyframes tick-in {
+  from {
+    opacity: 0;
+    transform: translateY(-2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+.animate-scan {
+  animation: scan 4s linear infinite;
+}
+.animate-tick {
+  animation: tick-in 260ms ease-out;
+}
+.animate-pulse-dot {
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-scan,
+  .animate-pulse-dot,
+  .animate-tick {
+    animation: none;
+  }
+}
