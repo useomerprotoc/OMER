@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  /* sint.gg structure, our own signal: warm black field, ember orange, white
+  /* Warm black field, ember orange, white
      type. The field is never neutral grey; it always carries a little heat. */
   --color-bg: #0a0806;
   --color-bg-raise: #120e0a;
@@ -153,7 +153,7 @@
     backdrop-filter: blur(2px);
   }
 
-  /* Horizontal hairline that fades in from the accent, straight off sint.gg. */
+  /* Horizontal hairline that fades in from the accent. */
   .hairline {
     height: 1px;
     background: linear-gradient(90deg, transparent, var(--color-accent-soft), transparent);

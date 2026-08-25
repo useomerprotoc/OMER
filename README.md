@@ -1,11 +1,33 @@
-# OMER
+<p align="center">
+  <img src="public/og.png" alt="OMER" width="900" />
+</p>
 
-An epoch-indexed reserve protocol. The number in every wallet rises every 30
-minutes on its own; the claim behind it does not move until someone trades.
+<h1 align="center">OMER</h1>
 
-Named after the unit manna was measured in. The mechanic is the same idea as
-[manna.supply](https://www.manna.supply/), rebuilt from scratch, wearing the
-[sint.gg](https://www.sint.gg/) design system.
+<p align="center"><b>An epoch-indexed reserve protocol.</b></p>
+
+<p align="center">
+  The number in every wallet rises every thirty minutes on its own, and the
+  claim behind it does not move until someone trades. Named after the unit
+  manna was measured in.
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/status-before%20launch-FF7A18" alt="status before launch" />
+  <img src="https://img.shields.io/badge/chain-Robinhood%204663-8A3A06" alt="Robinhood Chain 4663" />
+  <img src="https://img.shields.io/badge/stack-Vite%208%20%C2%B7%20React%2019-1f2328" alt="Vite 8, React 19" />
+  <img src="https://img.shields.io/badge/keys-none%20required-1f2328" alt="no paid keys" />
+</p>
+
+<p align="center">
+  <a href="https://omerprotocol.xyz">Site</a> &middot;
+  <a href="https://omerprotocol.xyz/how-it-works">How it works</a> &middot;
+  <a href="https://omerprotocol.xyz/machine">Machine</a> &middot;
+  <a href="https://omerprotocol.xyz/docs">Docs</a> &middot;
+  <a href="https://x.com/useomerprotoc">X</a>
+</p>
+
+---
 
 ```bash
 npm install && npm run dev
@@ -119,7 +141,7 @@ contracts/Omer.sol    the reference implementation
 
 ## Design
 
-sint.gg's structure, our own three colours.
+One structure, three colours, and no rounded corners anywhere.
 
 | token | value | role |
 |---|---|---|

@@ -2,7 +2,7 @@ import type { CSSProperties, ReactNode } from "react";
 import { clsx } from "clsx";
 import { Fold } from "./Atmosphere";
 
-/** Fixed film grain. sint.gg runs this at 3% over the whole document. */
+/** Fixed film grain at 3%, which is what stops the wide gradients banding. */
 export function NoiseOverlay() {
   return (
     <div
@@ -50,7 +50,7 @@ export function SystemLabel({
   );
 }
 
-/** The bracketed counter that heads every sint.gg block: [ 00 ], [ A ], §01. */
+/** The bracketed counter that heads every block: [ 00 ], [ A ], §01. */
 export function SectionMarker({
   index,
   label,
