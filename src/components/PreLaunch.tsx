@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { IS_LIVE } from "@/lib/protocol";
 import { useProtocol } from "@/lib/protocol-context";
-import { Sigil } from "./Sigil";
+import { OmerMark } from "./OmerMark";
 import { Panel, SystemLabel } from "./ui";
 
 /**
@@ -61,7 +61,7 @@ export function PreLaunchDesk() {
             <>
               <SystemLabel className="mb-4">Your omer</SystemLabel>
               <div className="flex items-center gap-3">
-                <Sigil id={identity.id} size={34} className="text-accent" />
+                <OmerMark size={34} />
                 <div>
                   <div className="display text-[17px]">{identity.handle}</div>
                   <div className="system-label mt-1 text-fg/30">

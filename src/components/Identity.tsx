@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useProtocol } from "@/lib/protocol-context";
 import { EPOCHS_PER_DAY, IS_LIVE } from "@/lib/protocol";
 import { num } from "@/lib/format";
-import { Sigil } from "./Sigil";
+import { OmerMark } from "./OmerMark";
 import { Panel, Row, SystemLabel } from "./ui";
 
 /** Nav-height identity: draw once, then it is a link into your own position. */
@@ -26,10 +26,9 @@ export function IdentityChip() {
       to="/holdings"
       className="group flex items-center gap-2.5 border border-line px-3 py-1.5 transition-colors duration-300 hover:border-accent/40"
     >
-      <Sigil
-        id={identity.id}
+      <OmerMark
         size={18}
-        className="text-accent-soft transition-transform duration-500 group-hover:rotate-45"
+        className="transition-transform duration-500 group-hover:rotate-45"
       />
       <span className="system-label text-fg/60 transition-colors group-hover:text-fg">
         {identity.handle}
@@ -71,7 +70,7 @@ export function IdentityPanel({ className }: { className?: string }) {
   return (
     <Panel className={className}>
       <div className="flex flex-col gap-8 p-8 sm:flex-row sm:items-start">
-        <Sigil id={identity.id} size={88} className="shrink-0 text-accent" />
+        <OmerMark size={88} className="shrink-0" />
 
         <div className="min-w-0 flex-1">
           <SystemLabel className="mb-3">Your omer</SystemLabel>

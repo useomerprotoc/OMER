@@ -2,9 +2,9 @@
  * Local identity. No wallet, no account, no server.
  *
  * Exodus 16 rations manna at one omer per person, so the interface hands out
- * exactly one omer per browser: a handle, a sigil derived from it, and the
- * epoch you first drew. Everything is deterministic from a single random id,
- * which means the same id always renders the same face.
+ * exactly one omer per device: a handle and the epoch you first drew it. The
+ * handle is a pure function of a single random id, so it never has to be
+ * trusted from storage and can always be recomputed.
  */
 
 const STORAGE_KEY = "omer.identity.v1";
@@ -15,16 +15,6 @@ export type Identity = {
   genesisEpoch: number;
   createdAt: number;
 };
-
-/** FNV-1a. Small, stable, and good enough to spread ids across the word list. */
-export function hash(input: string): number {
-  let h = 0x811c9dc5;
-  for (let i = 0; i < input.length; i++) {
-    h ^= input.charCodeAt(i);
-    h = Math.imul(h, 0x01000193) >>> 0;
-  }
-  return h >>> 0;
-}
 
 function randomId(): string {
   const bytes = new Uint8Array(4);
@@ -75,18 +65,4 @@ export function clearIdentity() {
   } catch {
     /* nothing to clear */
   }
-}
-
-/**
- * Derived shape parameters for the sigil. Same id, same face, on any machine.
- */
-export function sigilTraits(id: string) {
-  const h = hash(id);
-  return {
-    sliceAngle: h % 360,
-    tickCount: 5 + ((h >> 9) % 7),
-    tickPhase: (h >> 5) % 60,
-    coreRadius: 2 + ((h >> 17) % 3),
-    hasInnerRing: ((h >> 21) & 1) === 1,
-  };
 }
