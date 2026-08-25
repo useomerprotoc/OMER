@@ -35,6 +35,23 @@ npm install && npm run dev
 
 Runs on http://localhost:3270.
 
+## Token
+
+OMER trades on Robinhood Chain (id 4663) at
+
+```
+0xe4710C3a8a39eB29b0B56b4a48CEc00318dE9f2f
+```
+
+[View on Blockscout](https://robinhoodchain.blockscout.com/address/0xe4710C3a8a39eB29b0B56b4a48CEc00318dE9f2f)
+· [Site](https://omerprotocol.xyz)
+· [X](https://x.com/useomerprotoc)
+
+That token was launched through Virtuals and is a fixed-supply ERC-20.
+`contracts/Omer.sol` in this repository is the reference implementation of the
+share-and-index mechanism described on the site, and it is a separate piece of
+work from the contract at the address above.
+
 ## What it is
 
 Two numbers describe every wallet:
