@@ -14,6 +14,7 @@ import {
   LIQUID_FLOOR,
   REBASE_RATE,
   VAULT_APR,
+  VAULT_TARGET,
   curveIntegral,
   pricePerShare,
 } from "@/lib/protocol";
@@ -239,10 +240,12 @@ export function Machine() {
         { k: "Curve slope A", v: String(CURVE_A) },
         { k: "Genesis shares", v: num(GENESIS_SHARES, 0) },
         { k: "Genesis reserve", v: usd(curveIntegral(GENESIS_SHARES)) },
+        { k: "Genesis price", v: usdPrecise(pricePerShare(GENESIS_SHARES)) },
         { k: "Fee", v: `${FEE_RATE * 100}% both sides` },
         { k: "Fee to Reserve", v: `${FEE_TO_RESERVE * 100}%` },
         { k: "Fee to protocol", v: `${FEE_TO_PROTOCOL * 100}%` },
         { k: "Liquid floor", v: `${LIQUID_FLOOR * 100}%` },
+        { k: "Vault target", v: `${VAULT_TARGET * 100}%` },
         { k: "Vault APR", v: `${VAULT_APR * 100}%` },
         { k: "Current epoch", v: num(state.epoch, 0) },
       ]
@@ -255,10 +258,12 @@ export function Machine() {
         "Curve slope A",
         "Genesis shares",
         "Genesis reserve",
+        "Genesis price",
         "Fee",
         "Fee to Reserve",
         "Fee to protocol",
         "Liquid floor",
+        "Vault target",
         "Vault APR",
       ].map((k) => ({ k, v: TBA }));
 
@@ -315,7 +320,14 @@ export function Machine() {
         <SectionMarker index="D" label="Parameters" className="mb-8" />
         <Panel>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3">
-            {params.map((p, i) => (
+            {[
+              ...params,
+              ...Array.from({ length: (3 - (params.length % 3)) % 3 }, (_, i) => ({
+                k: `pad-${i}`,
+                v: "",
+                pad: true,
+              })),
+            ].map((p, i) => (
               <div
                 key={p.k}
                 className={
@@ -324,8 +336,12 @@ export function Machine() {
                   " border-b"
                 }
               >
-                <SystemLabel as="span">{p.k}</SystemLabel>
-                <span className="num text-[13px] text-fg/75">{p.v}</span>
+                {"pad" in p ? null : (
+                  <>
+                    <SystemLabel as="span">{p.k}</SystemLabel>
+                    <span className="num text-[13px] text-fg/75">{p.v}</span>
+                  </>
+                )}
               </div>
             ))}
           </div>
