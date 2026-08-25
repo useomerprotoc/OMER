@@ -174,19 +174,19 @@ the same square at 256.
 
 ## Deploy
 
-Static output. Every host gets its SPA fallback from its own config, so there is
-no shared `_redirects` file: `wrangler.jsonc` for Cloudflare, `netlify.toml`,
-`vercel.json`.
+Static output on Cloudflare Workers, and nothing else. `wrangler.jsonc` declares
+an assets directory and no `main`, so no Worker script runs against a request
+and none of the Workers CPU limits apply: Cloudflare serves what `vite build`
+puts in `dist/` and the reader's browser does the rest.
 
-Cloudflare is the one that is live. `wrangler.jsonc` declares assets and no
-`main`, so no Worker script runs against the request and none of the Workers CPU
-limits apply.
+`not_found_handling: "single-page-application"` is what answers an unmatched
+path with `index.html`, which react-router needs.
 
 ```bash
 npm run deploy
 ```
 
-Currently at https://omer.rouge-stocks.workers.dev.
+Live at https://omerprotocol.xyz.
 
 ## Honest note
 
