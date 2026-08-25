@@ -155,40 +155,52 @@ function CurvePlot() {
 function FlowDiagram() {
   const box = "border border-line px-4 py-3 text-center";
 
+  // Worked against a hundred units. Derived from the constants rather than
+  // typed in, so the diagram cannot drift from the fee the contract charges.
+  const BASE = 100;
+  const fee = BASE * FEE_RATE;
+  const toCurve = BASE - fee;
+  const kept = fee * FEE_TO_RESERVE;
+  const toProtocol = fee * FEE_TO_PROTOCOL;
+  const intoReserve = toCurve + kept;
+
+  const v = (n: number, unit = " USDG") =>
+    IS_LIVE ? `${num(n, n % 1 ? 1 : 0)}${unit}` : TBA;
+
   return (
     <div className="grid gap-px bg-line lg:grid-cols-[1fr_auto_1fr_auto_1fr]">
       <div className="bg-bg p-6">
         <SystemLabel className="mb-4 text-accent-soft">[ in ]</SystemLabel>
         <div className={box}>
-          <div className="num text-[15px]">100 USDG</div>
+          <div className="num text-[15px]">{v(BASE)}</div>
           <div className="system-label mt-2 text-fg/35">buyer pays</div>
         </div>
       </div>
 
       <div className="hidden items-center justify-center bg-bg px-4 lg:flex">
-        <span className="system-label text-fg/25">→</span>
+        <span className="system-label text-fg/25">&rarr;</span>
       </div>
 
       <div className="bg-bg p-6">
         <SystemLabel className="mb-4 text-accent-soft">[ split ]</SystemLabel>
         <div className="space-y-2">
           <div className={box}>
-            <div className="num text-[15px]">90 USDG</div>
+            <div className="num text-[15px]">{v(toCurve)}</div>
             <div className="system-label mt-2 text-fg/35">into the curve</div>
           </div>
           <div className={box}>
-            <div className="num text-[15px] text-accent-soft">7.5 USDG</div>
+            <div className="num text-[15px] text-accent-soft">{v(kept)}</div>
             <div className="system-label mt-2 text-fg/35">fee, kept in Reserve</div>
           </div>
           <div className={box}>
-            <div className="num text-[15px] text-fg/60">2.5 USDG</div>
+            <div className="num text-[15px] text-fg/60">{v(toProtocol)}</div>
             <div className="system-label mt-2 text-fg/35">fee, protocol</div>
           </div>
         </div>
       </div>
 
       <div className="hidden items-center justify-center bg-bg px-4 lg:flex">
-        <span className="system-label text-fg/25">→</span>
+        <span className="system-label text-fg/25">&rarr;</span>
       </div>
 
       <div className="bg-bg p-6">
@@ -196,14 +208,16 @@ function FlowDiagram() {
         <div className={box}>
           <div className="num text-[15px]">shares minted</div>
           <div className="system-label mt-2 text-fg/35">
-            sqrt(s² + 2·net/A) − s
+            sqrt(s&sup2; + 2&middot;net/A) &minus; s
           </div>
         </div>
         <div className={`${box} mt-2`}>
           <div className="num text-[15px] text-accent-soft">
-            97.5 USDG in Reserve
+            {IS_LIVE ? `${num(intoReserve, 1)} USDG in Reserve` : "Reserve grows"}
           </div>
-          <div className="system-label mt-2 text-fg/35">claim rose by 90</div>
+          <div className="system-label mt-2 text-fg/35">
+            {IS_LIVE ? `claim rose by ${num(toCurve, 0)}` : "claim grows by less"}
+          </div>
         </div>
       </div>
     </div>
@@ -266,10 +280,11 @@ export function Machine() {
         <SectionMarker index="A" label="Money in, shares out" className="mb-8" />
         <FlowDiagram />
         <p className="mt-8 max-w-2xl text-[14px] leading-relaxed text-fg/50">
-          The buyer hands over 100 and the pot grows by 97.5, while the claim
-          against the pot grows by only 90. That 7.5 gap is the entire reason the
-          Reserve outruns its obligations. Selling runs the same arithmetic in
-          reverse, and leaves the same kind of gap behind.
+          The buyer hands over one amount, the pot grows by slightly less, and
+          the claim against the pot grows by less again. That gap is the entire
+          reason the Reserve outruns its obligations, and it is the fee that was
+          never allowed to leave. Selling runs the same arithmetic in reverse and
+          leaves the same kind of gap behind.
         </p>
       </section>
 
