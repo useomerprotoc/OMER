@@ -23,12 +23,20 @@ function randomId(): string {
 }
 
 /**
- * Every handle carries the name. The suffix is the first four hex characters of
- * the id, so it is the part that tells two holders apart, and it is stable for
- * as long as the id is.
+ * Every handle carries the name, and the suffix is the part that tells two
+ * holders apart.
+ *
+ * Six digits rather than four hex characters. Hex reads as a code and sometimes
+ * shows letters, but the real reason is room: four hex characters is 65,536
+ * handles, which is a coin flip on a collision by the three hundredth holder.
+ * A million is a coin flip at about eleven hundred.
+ *
+ * Derived from the id rather than drawn separately, so a handle can always be
+ * recomputed and never has to be trusted from storage.
  */
 export function handleFor(id: string): string {
-  return `OMER-${id.slice(0, 4).toUpperCase()}`;
+  const n = Number.parseInt(id, 16) % 1_000_000;
+  return `OMER-${String(n).padStart(6, "0")}`;
 }
 
 export function loadIdentity(): Identity | null {
