@@ -2,5 +2,4 @@
 export const X_URL = "https://x.com/useomerprotoc";
 export const EXPLORER_URL = "https://robinhoodchain.blockscout.com";
 
-/** Empty until the repository exists; the icon hides itself while it is. */
-export const GITHUB_URL = "";
+export const GITHUB_URL = "https://github.com/useomerprotoc/OMER";
