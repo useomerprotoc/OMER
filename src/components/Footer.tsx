@@ -8,34 +8,37 @@ import { OmerMark } from "./OmerMark";
 
 type FooterLink = { label: string; to?: string; href?: string };
 
-const COLUMNS: { title: string; links: FooterLink[] }[] = [
+/**
+ * Names match the nav exactly. A footer that renames the same page invents a
+ * second vocabulary for one site, and the reader has to work out that Guide and
+ * Docs are the same place.
+ *
+ * Three columns rather than four: the old Reference column pointed at pages the
+ * other two already listed, so it was padding with a heading on it.
+ */
+const COLUMNS: { title: string; blurb: string; links: FooterLink[] }[] = [
   {
     title: "Protocol",
+    blurb: "What it is, and why the Reserve outruns the claim against it.",
     links: [
       { label: "How it works", to: "/how-it-works" },
-      { label: "The machine", to: "/machine" },
-      { label: "Reserve", to: "/reserve" },
-      { label: "Guide", to: "/docs" },
+      { label: "Machine", to: "/machine" },
+      { label: "Docs", to: "/docs" },
     ],
   },
   {
     title: "Market",
+    blurb: "Every surface that will carry a number once the contract is live.",
     links: [
-      { label: "Order desk", to: "/" },
-      { label: "Tape", to: "/market" },
+      { label: "Trade", to: "/" },
+      { label: "Market", to: "/market" },
+      { label: "Reserve", to: "/reserve" },
       { label: "Holdings", to: "/holdings" },
     ],
   },
   {
-    title: "Reference",
-    links: [
-      { label: "Curve math", to: "/machine" },
-      { label: "Fee split", to: "/docs" },
-      { label: "Solvency", to: "/reserve" },
-    ],
-  },
-  {
     title: "Elsewhere",
+    blurb: "Where the project talks, and where its source sits.",
     links: [
       { label: "X · @useomerprotoc", href: X_URL },
       ...(GITHUB_URL ? [{ label: "Source on GitHub", href: GITHUB_URL }] : []),
@@ -49,7 +52,7 @@ export function Footer() {
     <footer className="mt-24 border-t border-line px-6 pt-16 pb-24 lg:px-10">
       <Hairline className="mb-16 opacity-40" />
 
-      <div className="grid gap-12 lg:grid-cols-[1.4fr_repeat(4,1fr)]">
+      <div className="grid gap-12 lg:grid-cols-[1.3fr_repeat(3,1fr)]">
         <div>
           <div className="mb-4 flex items-center gap-3">
             <OmerMark size={32} className="opacity-80" />
@@ -68,7 +71,10 @@ export function Footer() {
 
         {COLUMNS.map((col) => (
           <div key={col.title}>
-            <SystemLabel className="mb-5">{col.title}</SystemLabel>
+            <SystemLabel className="mb-3">{col.title}</SystemLabel>
+            <p className="mb-6 max-w-[15rem] text-[13px] leading-relaxed text-fg/35">
+              {col.blurb}
+            </p>
             <ul className="space-y-3">
               {col.links.map((link) => (
                 <li key={link.label}>
