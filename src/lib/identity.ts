@@ -9,14 +9,6 @@
 
 const STORAGE_KEY = "omer.identity.v1";
 
-/** Desert provision and orbital mechanics, which is the whole register here. */
-const WORDS = [
-  "MANNA", "QUAIL", "OMER", "EPHAH", "SINAI", "HOREB", "MARAH", "ELIM",
-  "PARAN", "KADESH", "NEBO", "PISGAH", "ZIN", "SHUR", "ETHAM", "MIGDOL",
-  "UMBRA", "LIMB", "APSIS", "NODE", "PERIGEE", "APOGEE", "EPOCH", "VERNAL",
-  "ZENITH", "NADIR", "EMBER", "CINDER", "CORONA", "AUREOLE", "ORBIT", "TRANSIT",
-];
-
 export type Identity = {
   id: string;
   handle: string;
@@ -40,10 +32,13 @@ function randomId(): string {
   return Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
 }
 
+/**
+ * Every handle carries the name. The suffix is the first four hex characters of
+ * the id, so it is the part that tells two holders apart, and it is stable for
+ * as long as the id is.
+ */
 export function handleFor(id: string): string {
-  const h = hash(id);
-  const word = WORDS[h % WORDS.length];
-  return `${word}-${id.slice(0, 4).toUpperCase()}`;
+  return `OMER-${id.slice(0, 4).toUpperCase()}`;
 }
 
 export function loadIdentity(): Identity | null {
@@ -51,7 +46,8 @@ export function loadIdentity(): Identity | null {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) return null;
     const parsed = JSON.parse(raw) as Identity;
-    return parsed?.id ? parsed : null;
+    if (!parsed?.id) return null;
+    return { ...parsed, handle: handleFor(parsed.id) };
   } catch {
     return null;
   }
